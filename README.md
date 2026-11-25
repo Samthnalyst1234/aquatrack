@@ -13,20 +13,26 @@ so it runs on a single modest GPU without training anything from scratch.
 
 ## Example run
 
-![AquaTrack tracking a group of flamingos](docs/demo.jpg)
+![AquaTrack tracking a group of flamingos](docs/demo.gif)
 
-A 6-second clip of flamingos (public footage from Mixkit) produced, on a single T4 GPU:
+*20 flamingos tracked at once on public Mixkit footage, each with a stable ID and a motion trail.*
+
+A 6-second clip produced, on a single T4 GPU:
 
 - **883 detections** across **180 frames**
 - **20 individuals** tracked at once, each with a stable ID and motion trail
-- Per-track speed, distance and path straightness, proximity-based interaction
-  pairs, and movement-pattern clusters, all written to CSV
+- Per-track speed, distance, path straightness and relative depth, proximity-based
+  interaction pairs, and movement-pattern clusters, all written to CSV
+
+| Trajectories | Mean speed per track |
+|---|---|
+| ![trajectories](docs/trajectories.png) | ![speed](docs/speed.png) |
 
 Reproduce it:
 
 ```bash
 wget -O data/flamingos.mp4 "https://huggingface.co/datasets/FastVideo/Mixkit-Src/resolve/main/Zoo/mixkit-group-of-flamingos-on-the-shore-of-a-lake-4681_clip_1.mp4"
-python scripts/run.py data/flamingos.mp4 --out outputs/flamingos --device 0
+python scripts/run.py data/flamingos.mp4 --out outputs/flamingos --depth --device 0
 ```
 
 ## What it demonstrates
