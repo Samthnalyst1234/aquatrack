@@ -11,6 +11,24 @@ so it runs on a single modest GPU without training anything from scratch.
 > production software and is not affiliated with any company. The goal is to demonstrate a
 > working spatiotemporal computer-vision pipeline end to end.
 
+## Example run
+
+![AquaTrack tracking a group of flamingos](docs/demo.jpg)
+
+A 6-second clip of flamingos (public footage from Mixkit) produced, on a single T4 GPU:
+
+- **883 detections** across **180 frames**
+- **20 individuals** tracked at once, each with a stable ID and motion trail
+- Per-track speed, distance and path straightness, proximity-based interaction
+  pairs, and movement-pattern clusters, all written to CSV
+
+Reproduce it:
+
+```bash
+wget -O data/flamingos.mp4 "https://huggingface.co/datasets/FastVideo/Mixkit-Src/resolve/main/Zoo/mixkit-group-of-flamingos-on-the-shore-of-a-lake-4681_clip_1.mp4"
+python scripts/run.py data/flamingos.mp4 --out outputs/flamingos --device 0
+```
+
 ## What it demonstrates
 
 | Area | How AquaTrack shows it |
@@ -114,6 +132,12 @@ Then run with `--model path/to/fish.pt --classes all`.
 - A proper temporal model (sequence classifier) over trajectories instead of static features
 - Fish-specific fine-tuned detector shipped with the repo
 - Re-ID to reduce ID switches after occlusion
+
+## Credits
+
+- Test footage from [Mixkit](https://mixkit.co) (free Mixkit license).
+- Detection and tracking via [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) + ByteTrack.
+- Monocular depth via [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2).
 
 ## License
 
