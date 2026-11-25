@@ -97,7 +97,11 @@ class DepthEstimator:
             except (TypeError, ValueError):
                 hf_device = 0 if torch.cuda.is_available() else -1
 
-        self.pipe = pipeline("depth-estimation", model=model_name, device=hf_device)
+        # token=False forces anonymous access, so a stale/expired HF token in
+        # the environment can't break downloading this public model.
+        self.pipe = pipeline(
+            "depth-estimation", model=model_name, device=hf_device, token=False
+        )
 
     def depth_map(self, pil_image) -> np.ndarray:
         """Return a float32 depth map (same HxW as the image). Larger = nearer,
