@@ -1,0 +1,10 @@
+# Install the project (and these deps) with:  pip install -e .
+# On Lightning AI, torch/torchvision come preinstalled with CUDA.
+ultralytics>=8.3.0
+opencv-python>=4.9
+numpy>=1.26
+pandas>=2.0
+matplotlib>=3.8
+scikit-learn>=1.4
+transformers>=4.44
+pillow>=10.0
