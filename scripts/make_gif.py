@@ -16,9 +16,9 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description="Make a short GIF from a video")
     ap.add_argument("video", help="input video (e.g. an annotated.mp4)")
     ap.add_argument("--out", default="docs/demo.gif", help="output .gif path")
-    ap.add_argument("--fps", type=int, default=8, help="GIF frame rate")
-    ap.add_argument("--width", type=int, default=480, help="GIF width in px (keeps aspect)")
-    ap.add_argument("--max-seconds", type=float, default=5.0, help="clip length to use")
+    ap.add_argument("--fps", type=int, default=10, help="GIF frame rate")
+    ap.add_argument("--width", type=int, default=460, help="GIF width in px (keeps aspect)")
+    ap.add_argument("--max-seconds", type=float, default=12.0, help="clip length to use")
     args = ap.parse_args(argv)
 
     cap = cv2.VideoCapture(args.video)
