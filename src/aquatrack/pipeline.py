@@ -30,18 +30,33 @@ def _color(i: int):
     return (int(b * 255), int(g * 255), int(r * 255))
 
 
+def _ffmpeg_exe():
+    """Find an ffmpeg binary: system install first, then the one bundled with
+    imageio-ffmpeg (a pip package) so no system install is needed."""
+    exe = shutil.which("ffmpeg")
+    if exe:
+        return exe
+    try:
+        import imageio_ffmpeg
+
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        return None
+
+
 def _reencode_h264(path: Path) -> None:
     """Re-encode a video to H.264 in place so browsers / VS Code can play it.
 
     OpenCV writes ``mp4v`` (MPEG-4 Part 2), which most web players can't decode.
-    If ffmpeg is available we transcode to H.264; otherwise we leave the file
-    as-is (it is still valid, just not web-previewable).
+    If an ffmpeg binary is available we transcode to H.264; otherwise we leave
+    the file as-is (it is still valid, just not web-previewable).
     """
-    if shutil.which("ffmpeg") is None:
+    ffmpeg = _ffmpeg_exe()
+    if ffmpeg is None:
         return
     tmp = path.with_suffix(".h264.mp4")
     cmd = [
-        "ffmpeg", "-y", "-loglevel", "error", "-i", str(path),
+        ffmpeg, "-y", "-loglevel", "error", "-i", str(path),
         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
         str(tmp),
     ]

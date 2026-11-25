@@ -2,6 +2,7 @@
 # On Lightning AI, torch/torchvision come preinstalled with CUDA.
 ultralytics>=8.3.0
 lap>=0.5.12
+imageio-ffmpeg>=0.5
 opencv-python>=4.9
 numpy>=1.26
 pandas>=2.0
