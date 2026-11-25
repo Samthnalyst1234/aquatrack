@@ -83,8 +83,19 @@ class DepthEstimator:
         model_name: str = "depth-anything/Depth-Anything-V2-Small-hf",
         device=None,
     ):
+        import os
+
         import torch
         from transformers import pipeline
+
+        # Some hosts (e.g. Lightning) inject an HF token that may be expired.
+        # The depth model is public, so strip any token from the environment and
+        # request anonymously, otherwise an expired token causes a 401.
+        for _var in (
+            "HF_TOKEN", "HUGGING_FACE_HUB_TOKEN",
+            "HUGGINGFACEHUB_API_TOKEN", "HF_HUB_TOKEN",
+        ):
+            os.environ.pop(_var, None)
 
         if device is None:
             hf_device = 0 if torch.cuda.is_available() else -1
